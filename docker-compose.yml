@@ -1,0 +1,42 @@
+version: '3.9'
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: mysql-db
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: aiuabet
+    ports:
+      - "3307:3306"
+    # volumes:
+    #   - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  backend:
+    image: aiuabet-backend
+    container_name: backend
+    build:
+      context: ./aiuabet
+    ports:
+      - "9124:9124"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  frontend:
+    image: aiuabet-client
+    container_name: frontend
+    build:
+      context: ./aiuabet-client
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+volumes:
+  db_data:

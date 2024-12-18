@@ -1,0 +1,6 @@
+[submodule "AiuaBet"]
+	path = AiuaBet
+	url = https://github.com/avihay126/AiuaBet.git
+[submodule "aiuabet-client"]
+	path = aiuabet-client
+	url = https://github.com/avihay126/aiuabet-client.git
